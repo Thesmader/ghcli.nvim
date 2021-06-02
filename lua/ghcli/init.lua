@@ -1,4 +1,6 @@
-local function createIssue(title, body)
+local M = {}
+
+local function M.createIssue(title, body)
 
   -- Read title
   vim.fn.inputsave()
@@ -12,6 +14,7 @@ local function createIssue(title, body)
 
   -- Call gh CLI
   local t = {title=title, body=body}
+
   -- String interpolation
   local cmdstring = string.gsub("gh issue create -t \"$title\" -b \"$body\"", "%$(%w+)", t)
   local result = vim.fn.systemlist(cmdstring)
@@ -32,6 +35,4 @@ local function createIssue(title, body)
   vim.api.nvim_buf_set_lines(bufHandle, 0, -1, false, result)
 end
 
-return {
-  createIssue = createIssue
-}
+return M
